@@ -1,4 +1,10 @@
-from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+    RetrieveAPIView,
+    ListAPIView,
+)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.serializers import ValidationError
 
@@ -11,6 +17,7 @@ from habits.services import telegram_message
 
 class HabitCreateAPIView(CreateAPIView):
     """Создание привычки"""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated]
@@ -22,17 +29,18 @@ class HabitCreateAPIView(CreateAPIView):
         habit = serializer.save()
         habit.save()
         if habit.user.tg_id:
-            telegram_message(habit.user.tg_id, 'Создана новая привычка!')
+            telegram_message(habit.user.tg_id, "Создана новая привычка!")
 
 
 class HabitUpdateAPIView(UpdateAPIView):
     """Изменение привычки"""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
 
     def perform_update(self, serializer):
-        """Проверка связанной привычки на саму себя """
+        """Проверка связанной привычки на саму себя"""
         habit = serializer.save()
         if not habit.related_habit and habit.id == habit.related_habit.id:
             raise ValidationError(
@@ -43,12 +51,14 @@ class HabitUpdateAPIView(UpdateAPIView):
 
 class HabitDeleteAPIView(DestroyAPIView):
     """Удаление привычки"""
+
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
 
 
 class HabitRetrieveAPIView(RetrieveAPIView):
     """Просмотр привычки"""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
@@ -56,6 +66,7 @@ class HabitRetrieveAPIView(RetrieveAPIView):
 
 class HabitListAPIView(ListAPIView):
     """Список всех привычек"""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
@@ -66,8 +77,8 @@ class HabitListAPIView(ListAPIView):
 
 class HabitPublicListAPIView(ListAPIView):
     """Список опубликованных привычек"""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.filter(is_public=True)
     permission_classes = [AllowAny]
     pagination_class = HabitPaginator
-
