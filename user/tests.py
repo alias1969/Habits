@@ -5,7 +5,7 @@ from rest_framework.test import APITestCase
 from user.models import User
 
 
-class UsersTestCase(APITestCase):
+class UserTestCase(APITestCase):
     """Тестирование CRUD"""
 
     def setUp(self):
@@ -13,12 +13,12 @@ class UsersTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_user_list(self):
-        url = reverse("users:user_list")
+        url = reverse("user:user_list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_update(self):
-        url = reverse("users:user_update", args=(self.user.pk,))
+        url = reverse("user:user_update", args=(self.user.pk,))
         data = {
             "phone": "+7 777 777 7777",
             "tg_id": "90055071",
@@ -29,9 +29,9 @@ class UsersTestCase(APITestCase):
         self.assertEqual(data.get("phone"), "+7 777 777 7777")
 
     def test_user_create(self):
-        url = reverse("users:register")
+        url = reverse("user:register")
         data = {
-            "email": "test1ri@yandex.ru",
+            "email": "test1ri@test.ru",
             "password": "123qwe",
             "city": "test",
             "phone": "+7 777 777 7777",
@@ -42,14 +42,14 @@ class UsersTestCase(APITestCase):
         self.assertEqual(User.objects.all().count(), 2)
 
     def test_user_delete(self):
-        url = reverse("users:user_delete", args=(self.user.pk,))
+        url = reverse("user:user_delete", args=(self.user.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(User.objects.all().count(), 0)
 
     def test_user_retrieve(self):
-        url = reverse("users:user_viewing", args=(self.user.pk,))
+        url = reverse("user:user_viewing", args=(self.user.pk,))
         response = self.client.get(url)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data.get("tg_id"), self.user.tg_chat_id)
+        self.assertEqual(data.get("tg_id"), self.user.tg_id)

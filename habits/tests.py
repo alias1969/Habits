@@ -14,8 +14,8 @@ class HabitTestCase(APITestCase):
         self.habit = Habit.objects.create(
             user=self.user,
             location="дома",
-            time="2024-09-05T14:31:00+03:00",
-            action="сделать отжимание 50 раз",
+            time="2025-03-31T18:31:00+03:00",
+            action="сделать отжимание 25 раз",
             is_useful_habit="True",
             periodicity=1,
             reward="Null",
@@ -31,9 +31,9 @@ class HabitTestCase(APITestCase):
     def test_habit_create(self):
         url = reverse("habits:habit_create")
         data = {
-            "user": self.user.pk,
+            #"user": self.user.pk,
             "location": "дома",
-            "time": "2024-09-05T14:32:00+03:00",
+            "time": "2025-03-31T18:32:00+03:00",
             "action": "выпить кофе",
             "is_useful_habit": "False",
             "periodicity": 1,
@@ -48,21 +48,20 @@ class HabitTestCase(APITestCase):
         response = self.client.get(url)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data.get("periodicity"), self.habit.period)
+        self.assertEqual(data.get("periodicity"), self.habit.periodicity)
 
     def test_habit_update(self):
         url = reverse("habits:habit_update", args=(self.habit.pk,))
         data = {
             "location": "на улице",
-            "time": "2024-09-05T16:32:00+03:00",
-            "action": "выпить кофе",
-            "is_useful_habit": "False",
+            "time": "2025-03-31T18:32:00+03:00",
+            "action": "прогуляться",
+            "is_useful_habit": False,
             "periodicity": 1,
             "time_to_complete": "00:02:00",
         }
         response = self.client.patch(url, data)
         data = response.json()
-        # print(response.json())
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data.get("location"), "на улице")
 

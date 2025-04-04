@@ -195,4 +195,5 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False) == "True"
 EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", True) == "False"
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_URL = os.getenv("TELEGRAM_URL")
+TELEGRAM_URL = 'https://api.telegram.org/bot'
+TELEGRAM_ID = os.getenv("TELEGRAM_ID")

@@ -42,7 +42,7 @@ class HabitUpdateAPIView(UpdateAPIView):
     def perform_update(self, serializer):
         """Проверка связанной привычки на саму себя"""
         habit = serializer.save()
-        if not habit.related_habit and habit.id == habit.related_habit.id:
+        if habit.related_habit and habit.pk == habit.related_habit.pk:
             raise ValidationError(
                 f"Связанная привычка не может быть ссылкой на саму себя!"
             )

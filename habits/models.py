@@ -18,11 +18,11 @@ class Habit(models.Model):
         max_length=250,
         default="Дома",
         verbose_name="Место",
-        help_text="Место, в котором необходимо выполнять привычку",
+        help_text="Место, где выполнять привычку",
     )
     time = models.DateTimeField(
         verbose_name="Время",
-        help_text="Время, когда необходимо выполнять привычку",
+        help_text="Время, когда выполнять привычку",
     )
     action = models.CharField(
         max_length=250,
@@ -32,24 +32,24 @@ class Habit(models.Model):
     is_useful_habit = models.BooleanField(
         default=False,
         verbose_name="Признак приятной привычки",
-        help_text="Привычка, которую можно привязать к выполнению полезной привычки",
+        help_text="Признак приятной привычки",
     )
     related_habit = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
         verbose_name="Связанная привычка",
         help_text="Привычка, которая связана с другой привычкой, "
-        "важно указывать для полезных привычек, но не для приятных",
+        "важно указывать для полезных привычек",
         **NULLABLE,
     )
     periodicity = models.PositiveIntegerField(
         verbose_name="Периодичность",
-        help_text="Периодичность выполнения привычки для напоминания в днях",
+        help_text="Периодичность выполнения привычки (для напоминания), в днях",
     )
     reward = models.CharField(
         max_length=200,
         verbose_name="Вознаграждение",
-        help_text="Чем пользователь должен себя вознаградить после выполнения",
+        help_text="Вознаграждение после выполнения",
         **NULLABLE,
     )
     time_to_complete = models.DurationField(
@@ -60,7 +60,7 @@ class Habit(models.Model):
         default=True,
         verbose_name="Признак публичности",
         help_text="Привычки можно публиковать в общий доступ, "
-        "чтобы другие пользователи могли брать в пример чужие привычк",
+        "чтобы другие пользователи могли брать в пример чужие привычки",
     )
 
     def __str__(self):
@@ -69,3 +69,4 @@ class Habit(models.Model):
     class Meta:
         verbose_name = "Привычка"
         verbose_name_plural = "Привычки"
+        ordering = ['id']
