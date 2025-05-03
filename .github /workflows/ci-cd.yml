@@ -90,7 +90,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd dev/habits
+            cd dev/Habits
             git pull origin main
             docker compose down
             docker compose up -d --build
