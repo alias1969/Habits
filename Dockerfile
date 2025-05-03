@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
 
 # Копируем файл зависимостей в контейнер
-#COPY requirements.txt ./
+COPY requirements.txt ./
 
 # Устанавливаем зависимости проекта
 RUN pip install -r requirements.txt
