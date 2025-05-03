@@ -20,6 +20,7 @@ COPY requirements.txt ./
 
 # Устанавливаем зависимости проекта
 RUN pip install -r requirements.txt
+RUN pip install gunicorn
 
 # Копируем исходный код приложения в контейнер
 COPY . .
