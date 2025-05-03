@@ -21,3 +21,6 @@ RUN pip install -r requirements.txt
 
 # Копируем исходный код приложения в контейнер
 COPY . .
+
+# Определяем команду для запуска приложения
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
